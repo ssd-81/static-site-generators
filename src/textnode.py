@@ -10,7 +10,9 @@ class TextType(Enum):
 
 
 class TextNode:
-    def __init__(self, text, text_type, url=None):
+    def __init__(self, text, text_type: TextType, url=None):
+        if text_type not in [member for member in TextType]:
+            raise ValueError(f"{text_type} is not a valid TextType")
         self.text = text
         self.text_type = text_type
         self.url = url

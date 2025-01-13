@@ -26,6 +26,14 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("we are similar", TextType.ITALIC)
         node2 = TextNode("we are similar", TextType.NORMAL)
         self.assertNotEqual(node, node2)
+    
+    def test_explicit_none(self):
+        node = TextNode("explicit none", TextType.BOLD, None)
+        self.assertEqual(node.url, None)
+
+    def test_invalid_text_type_enum(self):
+        with self.assertRaises(ValueError):
+            TextNode("Invalid type test", "RANDOM_TYPE")
 
 if __name__ =="__main__":
     unittest.main()
