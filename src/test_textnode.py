@@ -23,7 +23,7 @@ class TestTextNode(unittest.TestCase):
     
     def test_different(self):
         node = TextNode("we are similar", TextType.ITALIC)
-        node2 = TextNode("we are similar", TextType.NORMAL)
+        node2 = TextNode("we are similar", TextType.TEXT)
         self.assertNotEqual(node, node2)
     
     def test_explicit_none(self):
