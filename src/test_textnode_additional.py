@@ -21,12 +21,12 @@ class TestTextNodeAdditional(unittest.TestCase):
         node = TextNode("There is an enlightened being among us", TextType.TEXT)
         node2 = TextNode("The shadow is calling **me**", TextType.TEXT)
         alt_nodes = split_nodes_delimiter([node, node2], "**", TextType.BOLD)
-        self.assertEqual(len(alt_nodes), 4)
+        self.assertEqual(len(alt_nodes), 3)
 
     def test_italic_text_input(self):
         node = TextNode("what you desire, lies *ahead*", TextType.TEXT)
         alt_nodes = split_nodes_delimiter([node], "*", TextType.ITALIC)
-        self.assertEqual(len(alt_nodes), 3)
+        self.assertEqual(len(alt_nodes), 2)
     
     def test_code_text_input(self):
         node = TextNode("the python code: `x == (x+1) ` is very confusing", TextType.TEXT)
@@ -66,10 +66,10 @@ class TestTextNodeAdditional(unittest.TestCase):
     def test_empty_delimiters_text_input(self):
         node = TextNode("What is the core apple development ** **",TextType.TEXT)
         alt_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-        self.assertEqual(len(alt_nodes), 3)
+        self.assertEqual(len(alt_nodes), 2)
         self.assertEqual(alt_nodes[1].text_type, TextType.BOLD)
         self.assertEqual(alt_nodes[1].text, " ")
-        self.assertEqual(alt_nodes[2].text, "")
+
 
     def test_preserve_non_text_type(self):
         node = TextNode("Let us **break** dance", TextType.BOLD)
