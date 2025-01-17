@@ -76,4 +76,33 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
 
         self.assertEqual(markdown_to_blocks(raw_markdown),expected_output )
     
-    def test_
+    def test_single_block_markdown_to_blocks(self):
+        raw_markdown = "* the water is cold and tasty\n\n"
+        expected_output = ["* the water is cold and tasty"]
+        self.assertEqual(len(expected_output), 1)
+        self.assertEqual(markdown_to_blocks(raw_markdown), expected_output)
+    
+    def test_empty_blocks_markdown_to_blocks(self):
+        raw_markdown = """# Title
+
+
+* item 1
+* item 2"""
+        expected_output = ["# Title", "* item 1\n* item 2"]
+        self.assertEqual(expected_output, markdown_to_blocks(raw_markdown))
+
+    def test_empty_markdown_input_markdown_to_blocks(self):
+        raw_markdown = ""
+        expected_output = []
+        self.assertEqual(markdown_to_blocks(raw_markdown), expected_output)
+    
+
+    def test_blank_at_beginning_and_end_markdown_to_blocks(self):
+        raw_markdown = "\nthe infinite hidden universe\n"
+        expected_output = ["the infinite hidden universe"]
+        self.assertEqual(markdown_to_blocks(raw_markdown), expected_output)
+    
+    def test_spaces_tabs_mixed_with_blank_lines_markdown_to_blocks(self):
+        raw_markdown = "there was once an apple\n\t    \t\nWhat is that apple doing now?\t\n   "
+        expected_output = ["there was once an apple", "What is that apple doing now?"]
+        self.assertEqual(markdown_to_blocks(raw_markdown), expected_output)

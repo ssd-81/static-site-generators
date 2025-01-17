@@ -25,20 +25,18 @@ def extract_markdown_links(text):
 
 def markdown_to_blocks(markdown):
     blocks = markdown.split("\n\n")
-    print("Yo", blocks)
+    new_blocks = []
+
     for block in blocks:
-        block = block.strip()
-        if not block:
-            blocks.remove(block)
+        temp = block 
+        temp = temp.strip()
+        temp = temp.strip("\n")
+        if not temp:
             continue
-    return blocks
+        new_blocks.append(temp)
+    return new_blocks
 
-sample_input = """# This is a heading
 
-This is a paragraph of text. It has some **bold** and *italic* words inside of it.
 
-* This is the first list item in a list block
-* This is a list item
-* This is another list item"""
-print(markdown_to_blocks(sample_input))
+
              
