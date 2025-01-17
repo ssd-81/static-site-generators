@@ -1,5 +1,5 @@
 import unittest
-from markdown_extract import extract_markdown_images, extract_markdown_links
+from markdown_extract import extract_markdown_images, extract_markdown_links, markdown_to_blocks
 
 
 class TestMarkdownExtract(unittest.TestCase):
@@ -30,13 +30,6 @@ class TestMarkdownExtract(unittest.TestCase):
         self.assertEqual(img_list[2][0], "chicken roll")
         self.assertEqual(img_list[2][1], "https://i.imgur.com/aKaOqIh.gif") 
 
-    # def test_nested_markdown_image_extract(self):
-    #     text = "![img [1]](url1) ![img [2]](url2)"
-    #     print("Testing nested case with text:", text)  # Debug print
-    #     img_list = extract_markdown_images(text)
-    #     print("Nested case result:", img_list)  # Debug print
-    #     self.assertEqual(len(img_list), 2)
-    
     
     def test_empty_alt_text_markdown_link_extract(self):
         text = "This is text with a link [](https://www.boot.dev) woow"
@@ -66,3 +59,21 @@ class TestMarkdownExtract(unittest.TestCase):
         self.assertEqual(links_list[2][1], "https://www.boot.dev/space")
         self.assertEqual(links_list[3][0], "to outer space")
         self.assertEqual(links_list[3][1], "https://www.outer.space")
+    
+    # test suite for markdown_to_blocks
+    def test_simple_markdown_input_markdown_to_blocks(self):
+        raw_markdown = text = '''# This is a heading
+
+This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+* This is the first list item in a list block
+* This is a list item
+* This is another list item'''
+
+        expected_output = ["# This is a heading", "This is a paragraph of text. It has some **bold** and *italic* words inside of it.", '''* This is the first list item in a list block
+* This is a list item
+* This is another list item'''] 
+
+        self.assertEqual(markdown_to_blocks(raw_markdown),expected_output )
+    
+    def test_

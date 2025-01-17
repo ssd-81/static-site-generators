@@ -14,5 +14,4 @@ def text_to_textnodes(text):
     nodes = split_nodes_link(nodes)
     for delimiter, text_type in DELIMITERS:
         nodes = split_nodes_delimiter(nodes, delimiter, text_type)
-    print(nodes)
     return nodes

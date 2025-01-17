@@ -22,4 +22,23 @@ def extract_markdown_links(text):
             raise ValueError("url links cannot be empty")
     return links_meta
 
+
+def markdown_to_blocks(markdown):
+    blocks = markdown.split("\n\n")
+    print("Yo", blocks)
+    for block in blocks:
+        block = block.strip()
+        if not block:
+            blocks.remove(block)
+            continue
+    return blocks
+
+sample_input = """# This is a heading
+
+This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+* This is the first list item in a list block
+* This is a list item
+* This is another list item"""
+print(markdown_to_blocks(sample_input))
              

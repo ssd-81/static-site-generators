@@ -29,3 +29,57 @@ class TestTextToTextNodes(unittest.TestCase):
         text = ""
         expected_output = []
         self.assertEqual(text_to_textnodes(text), expected_output)
+    
+    def test_multiple_same_type(self):
+        text = "**bold** normal **bold again**"
+        expected_output = [
+            TextNode("bold", TextType.BOLD),
+            TextNode(" normal ", TextType.TEXT),
+            TextNode("bold again", TextType.BOLD)
+        ]
+        self.assertEqual(text_to_textnodes(text), expected_output)
+    
+    def test_incomplete_markdown(self):
+        text = "This has an *italic but no closing and a [link](with no closing"
+        expected_output = [TextNode(text, TextType.TEXT)]
+        self.assertRaises(Exception, text_to_textnodes, text)
+    
+    def test_multiple_images_and_links(self):
+        text = "![img1](url1) and ![img2](url2) with [link1](url3) and [link2](url4)"
+        expected_output = [TextNode("img1", TextType.IMAGE, "url1"), TextNode(" and ", TextType.TEXT), TextNode("img2", TextType.IMAGE, "url2"), TextNode(" with ", TextType.TEXT), TextNode("link1", TextType.LINK, "url3"), TextNode(" and ", TextType.TEXT), TextNode("link2", TextType.LINK, "url4")]
+        self.assertEqual(text_to_textnodes(text), expected_output)
+    
+    def test_nested_delimiters(self):
+        text = "This is **bold with *italic* inside**"
+        expected_output = [
+            TextNode("This is ", TextType.TEXT),
+            TextNode("bold with *italic* inside", TextType.BOLD)
+        ]
+        self.assertEqual(text_to_textnodes(text), expected_output)
+    
+    def test_leading_trailing_delimiters(self):
+        text = "**bold start** plain text *italic end*"
+        expected_output = [
+            TextNode("bold start", TextType.BOLD),
+            TextNode(" plain text ", TextType.TEXT),
+            TextNode("italic end", TextType.ITALIC)
+        ]
+        self.assertEqual(text_to_textnodes(text), expected_output)
+    
+    def test_consecutive_delimiters(self):
+        text = "**bold**`code`*italic*"
+        expected_output = [
+            TextNode("bold", TextType.BOLD),
+            TextNode("code", TextType.CODE),
+            TextNode("italic", TextType.ITALIC)
+        ]
+        self.assertEqual(text_to_textnodes(text), expected_output)
+    
+    def test_whitespace_handling(self):
+        text = "  spaces  **  bold  **  "
+        expected_output = [
+            TextNode("  spaces  ", TextType.TEXT),
+            TextNode("  bold  ", TextType.BOLD),
+            TextNode("  ", TextType.TEXT)
+        ]
+        self.assertEqual(text_to_textnodes(text), expected_output)
