@@ -24,16 +24,17 @@ def extract_markdown_links(text):
 
 
 def markdown_to_blocks(markdown):
-    blocks = markdown.split("\n\n")
+    # Use re.split to handle blank lines with spaces/tabs
+    blocks = re.split(r'\n[ \t]*\n', markdown)
     new_blocks = []
 
     for block in blocks:
-        temp = block 
-        temp = temp.strip()
-        temp = temp.strip("\n")
+        # Strip whitespace from each block and check if it's non-empty
+        temp = block.strip()
         if not temp:
             continue
         new_blocks.append(temp)
+
     return new_blocks
 
 
