@@ -1,5 +1,6 @@
 import unittest
-from markdown_extract import extract_markdown_images, extract_markdown_links, markdown_to_blocks
+from markdown_extract import (extract_markdown_images, extract_markdown_links, markdown_to_blocks,
+block_to_block_type)
 
 
 class TestMarkdownExtract(unittest.TestCase):
@@ -106,3 +107,49 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
         raw_markdown = "there was once an apple\n\t    \t\nWhat is that apple doing now?\t\n   "
         expected_output = ["there was once an apple", "What is that apple doing now?"]
         self.assertEqual(markdown_to_blocks(raw_markdown), expected_output)
+    
+    # tests for block_to_block_type
+    def test_heading_blocks(self):
+        self.assertEqual(block_to_block_type("# Heading 1"),  "heading")
+        self.assertEqual(block_to_block_type("###### Heading 6"), "heading")
+        self.assertEqual(block_to_block_type("### Middle heading"),  "heading")
+
+    def test_code_blocks(self):
+        simple_code = (
+            "```\n"
+            "This is code\n"
+            "```"
+        )
+        python_code = (
+            "```python\n"
+            "def hello():\n"
+            "    print('world')\n"
+            "```"
+        )
+        self.assertEqual(block_to_block_type(simple_code), "code")
+        self.assertEqual(block_to_block_type(python_code), "code")
+
+    def test_quote_blocks(self):
+        single_quote = "> This is a quote"
+        multi_quote = (
+            "> First line\n"
+            "> Second line\n"
+            "> Third line"
+        )
+        # print(repr(multi_quote))
+        self    .assertEqual(block_to_block_type(single_quote), "quote")
+        self.assertEqual(block_to_block_type(multi_quote), "quote")
+
+    def test_unordered_lists(self):
+        asterisk_list = (
+            "* First\n"
+            "* Second\n"
+            "* Third"
+        )
+        dash_list = (
+            "- First\n"
+            "- Second\n"
+            "- Third"
+        )
+        self.assertEqual(block_to_block_type(asterisk_list), "unordered_list")
+        self.assertEqual(block_to_block_type(dash_list),  "unordered_list")
