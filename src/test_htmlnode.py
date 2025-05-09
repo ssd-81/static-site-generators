@@ -64,8 +64,3 @@ class TestHTMLNode(unittest.TestCase):
     def test_parent_node_with_props(self):
         node = ParentNode('p', [LeafNode('div', 'content is the king'), LeafNode('a', 'gmail.com')], {"someprop":"idk"})
         self.assertEqual(node.to_html(), '<p someprop="idk"><div>content is the king</div><a>gmail.com</a></p>')
-
-    
-
-
-
